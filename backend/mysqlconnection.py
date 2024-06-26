@@ -26,6 +26,15 @@ def connect():
                             charset='utf8mb4',
                             cursorclass=pymysql.cursors.DictCursor
                             )
+        # conn=pymysql.connect(
+        #                     host="http://mysql-stay-ins.alwaysdata.net",
+        #                     database= "stay-ins_website",
+        #                     user= "Stay-ins_home",
+        #                     password= "Stayins@7",
+        #                     port=3306,
+        #                     charset='utf8mb4',
+        #                     cursorclass=pymysql.cursors.DictCursor
+                            # )
     except pymysql.Error as e:
         print(e)
     return conn
