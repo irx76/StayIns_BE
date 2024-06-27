@@ -101,5 +101,48 @@ def getBoardings():
         return jsonify(boardings)
     return "No boardings found", 404
 
+
+@app.route('/listyourproperty', methods=['POST'])
+def listYourProperty():
+    conn = connect()
+    
+
+    city = request.form.get('city')
+    boardingType = request.form.get('boardingType')
+    boarderType = request.form.get('boarderType')
+    monthlyFee = request.form.get('monthlyFee')
+    keyMoney = request.form.get('keyMoney')
+    description = request.form.get('description')
+    size = request.form.get('size')
+
+    if not all([city, boardingType, boarderType, monthlyFee, keyMoney, description, size]):
+        return "Missing fields", 400
+
+    files = request.files.getlist('dropzone-file')
+    if len(files) < 3:
+        return "At least 3 images are required.", 400
+
+    with conn.cursor() as cursor:
+        # Prepare the images for insertion, filling in None for missing images
+        images = [file.read() if file.filename != '' else None for file in files]
+        # Ensure the list has exactly 6 elements, filling in None if necessary
+        images += [None] * (6 - len(images))
+
+        # Insert image data into the images table
+        cursor.execute("INSERT INTO images (image1, image2, image3, image4, image5, image6) VALUES (%s, %s, %s, %s, %s, %s)", tuple(images))
+        conn.commit()
+
+        # Retrieve the last inserted imageId
+        cursor.execute("SELECT imageId FROM images ORDER BY imageId DESC LIMIT 1")
+        imageId = cursor.fetchone()['imageId']
+
+        # Insert the property data into the boarding table
+        cursor.execute("INSERT INTO boarding (city, boardingType, boarderType, monthlyFee, keyMoney, imageId, description, size) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)", (city, boardingType, boarderType, monthlyFee, keyMoney, imageId, description, size))
+        conn.commit()
+
+    return "Property listed successfully", 200
+
+
 if __name__ == '__main__':
     app.run(debug=True)
+
