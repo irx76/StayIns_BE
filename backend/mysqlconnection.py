@@ -81,5 +81,25 @@ def get_jobs():
             return jsonify(boardings)
         return "No boardings found", 404
     
+
+@app.route('/search', methods=['GET'])
+def getBoardings():
+    conn=connect()
+    cursor=conn.cursor()
+
+    cursor.execute("SELECT id,city,boardingType,boarderType,monthlyFee,keyMoney,description,size,image1,image2,image3,image4,image5,image6 from boarding,images WHERE boarding.imageId=images.imageId;")
+    boardings = []
+    for row in cursor.fetchall():
+            image1_base64 = base64.b64encode(row['image1']).decode('utf-8')
+            image2_base64 = base64.b64encode(row['image2']).decode('utf-8')
+            image3_base64 = base64.b64encode(row['image3']).decode('utf-8')
+            image4_base64 = base64.b64encode(row['image4']).decode('utf-8')
+            image5_base64 = base64.b64encode(row['image5']).decode('utf-8')
+            image6_base64 = base64.b64encode(row['image6']).decode('utf-8')
+            boardings.append(dict(id=row['id'], city=row['city'], boardingType=row['boardingType'], boarderType=row['boarderType'], monthlyFee=row['monthlyFee'], keyMoney=row['keyMoney'], description=row['description'], size=row['size'], image1=image1_base64, image2=image2_base64, image3=image3_base64, image4=image4_base64, image5=image5_base64, image6=image6_base64))
+    if boardings:
+        return jsonify(boardings)
+    return "No boardings found", 404
+
 if __name__ == '__main__':
     app.run(debug=True)
