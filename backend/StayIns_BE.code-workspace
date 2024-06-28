@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": ".."
+		},
+		{
+			"path": "../../StayIns_FE"
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "StayIns_FE"
+	}
+}
