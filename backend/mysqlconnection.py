@@ -17,12 +17,21 @@ def connect():
         #                     charset='utf8mb4',
         #                     cursorclass=pymysql.cursors.DictCursor
         #                     )
+        # conn=pymysql.connect(
+        #                     host="127.0.0.1",
+        #                     database= "stayins",
+        #                     user= "root",
+        #                     password= "",
+        #                     port=8889,
+        #                     charset='utf8mb4',
+        #                     cursorclass=pymysql.cursors.DictCursor
+        #                     )
+        
         conn=pymysql.connect(
-                            host="127.0.0.1",
-                            database= "stayins",
-                            user= "root",
-                            password= "",
-                            port=8889,
+                            host="mysql-stayins.alwaysdata.net",
+                            database= "stayins_database",
+                            user= "stayins_irosh",
+                            password= "465646564@Iir",
                             charset='utf8mb4',
                             cursorclass=pymysql.cursors.DictCursor
                             )
