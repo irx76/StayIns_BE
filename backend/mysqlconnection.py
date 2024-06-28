@@ -1,4 +1,4 @@
-from flask import Flask,request,jsonify
+from flask import Flask,request,jsonify,make_response
 import json
 import pymysql
 import base64
@@ -140,7 +140,15 @@ def listYourProperty():
         cursor.execute("INSERT INTO boarding (city, boardingType, boarderType, monthlyFee, keyMoney, imageId, description, size) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)", (city, boardingType, boarderType, monthlyFee, keyMoney, imageId, description, size))
         conn.commit()
 
-    return "Property listed successfully", 200
+    response_html = """
+    <html>
+        <body>
+            <p>Your submission was successful!</p>
+            <a href="http://127.0.0.1:5500/List%20your%20Property/List%20your%20property.html">Back to Form</a>
+        </body>
+    </html>
+    """
+    return make_response(response_html),200
 
 
 if __name__ == '__main__':
