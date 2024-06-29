@@ -1,9 +1,11 @@
 from flask import Flask,request,jsonify,make_response
+from flask_cors import CORS
 import json
 import pymysql
 import base64
 
 app=Flask(__name__)
+CORS(app)
 
 def connect():
     conn=None
